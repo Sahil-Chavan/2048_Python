@@ -33,7 +33,7 @@ class Game():
                 got_option2 = True 
                 break
             
-        return board_size*4,game_type*2
+        return board_size*4,game_type*2048
         
     @staticmethod
     def Collect_move():
@@ -80,15 +80,15 @@ class Game():
             # Game.Display_board(self.Grid)
     
     def Verdict(self):
-        print('checking for verdict1')
+        # print('checking for verdict1')
         self.Has_won()
-        print('checking for verdict2')
+        # print('checking for verdict2')
         is_empty = False
         for r in range(self.Board_size):
             for c in range(self.Board_size):
                 if self.Grid[r][c] == 0:
                     is_empty = True
-        print('checking for verdict3',is_empty) 
+        # print('checking for verdict3',is_empty) 
         if not is_empty:
             print('checking for lost')
             self.Has_lost()

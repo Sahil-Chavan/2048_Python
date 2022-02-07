@@ -9,7 +9,7 @@ class Game():
         self.Board_size,self.Game_type = Game.Collect_size()
         self.Grid = [[0]*self.Board_size for _ in range(self.Board_size)]
         self.Random_add()
-        # self.Grid = [[2,7,1,9],[4,0,5,0],[1,4,3,2],[1024,1024,1024,1024]]
+        # self.Grid = [[8,0,32,0],[2,36,4,16],[16,256,128,8],[36,64,8,4]]
         self.Function_map = {1:Game.Merge_left_matrix,2:Game.Merge_right_matrix,3:Game.Merge_up_matrix,4:Game.Merge_down_matrix }
         self.Provide_options()
     
@@ -194,11 +194,7 @@ class Game():
         
 if __name__ == '__main__':
     game = Game() #Initializing the game.
-    # now = datetime.now()
 
-    # current_sec = int(datetime.now().strftime("%S"))
-    # ind = (current_sec+5)%5
-    # print("Current Time =", ind)
     
 
     

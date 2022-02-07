@@ -1,5 +1,7 @@
+# importing dependencies.
 import copy
-from random import sample
+from datetime import datetime
+# from random import sample
 
 class Game():
     # Initializing the constructor
@@ -171,10 +173,14 @@ class Game():
     def Random_add(self):
         flat_grid = [item for row in self.Grid for item in row]
         zero_indexes = [i for i,v in enumerate(flat_grid) if v==0]
-        add_index = sample(zero_indexes,1)[0]
+        # add_index = sample(zero_indexes,1)[0] # This is randomization usind random module.
+        index_of_zero_index = (int(datetime.now().strftime("%S"))+len(zero_indexes))%len(zero_indexes) # This is randomization usind datetime module.
+        add_index = zero_indexes[index_of_zero_index]
         row_index = add_index//self.Board_size
         col_index = add_index%self.Board_size
-        rand_val = sample([2,4],1)[0]
+        index_of_rand_val = (int(datetime.now().strftime("%S"))+2)%2
+        # rand_val = sample([2,4],1)[0]# This is randomization usind random module.
+        rand_val = [2,4][index_of_rand_val]# This is randomization usind datetime module.
         self.Grid[row_index][col_index] = rand_val
         
     # An static method for checking is user has enterd an correct option.
@@ -188,6 +194,11 @@ class Game():
         
 if __name__ == '__main__':
     game = Game() #Initializing the game.
+    # now = datetime.now()
+
+    # current_sec = int(datetime.now().strftime("%S"))
+    # ind = (current_sec+5)%5
+    # print("Current Time =", ind)
     
 
     

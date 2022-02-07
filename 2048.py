@@ -2,27 +2,38 @@ import copy
 from random import sample
 
 class Game():
-    def __init__(self,game_type=0):
+    def __init__(self):
         
-        self.Board_size = Game.Collect_size()
+        self.Board_size,self.Game_type = Game.Collect_size()
         self.Grid = [[0]*self.Board_size for _ in range(self.Board_size)]
         self.Random_add()
         # self.Grid = [[2,7,1,9],[4,0,5,0],[1,4,3,2],[2,1,7,8]]
-        self.Function_map = {1:Game.Merge_left_matrix,2:Game.Merge_right_matrix,3:Game.Merge_up_matrix,4:Game.Merge_down_matrix}
+        self.Function_map = {1:Game.Merge_left_matrix,2:Game.Merge_right_matrix,3:Game.Merge_up_matrix,4:Game.Merge_down_matrix }
         self.Provide_options()
     
     @staticmethod
     def Collect_size():
-        got_option = False
+        got_option1 = False
         board_size = 1
-        while not got_option:
+        while not got_option1:
             board_size = int(input('\tPlease select Grid size : \n\t 1) 4 X 4 Grid \n\t 2) 8 X 8 Grid \n\t'))
             if not Game.Check_options(2,board_size):
                 print('\tINVALID OPTION !')
             else:
-                got_option = True 
+                got_option1 = True 
                 break
-        return board_size*4
+        
+        got_option2 = False
+        game_type = 1
+        while not got_option2:
+            game_type = int(input('\tPlease select Grid size : \n\t 1) 2048 \n\t 2) 4096 \n\t'))
+            if not Game.Check_options(2,game_type):
+                print('\tINVALID OPTION !')
+            else:
+                got_option2 = True 
+                break
+            
+        return board_size*4,game_type*2
         
     @staticmethod
     def Collect_move():
@@ -96,7 +107,7 @@ class Game():
     def Has_won(self):
         for r in range(self.Board_size):
             for c in range(self.Board_size):
-                if self.Grid[r][c] == 2048:
+                if self.Grid[r][c] == self.Game_type:
                     Game.Display_board(self.Grid)
                     print('\t !!! Hurray You Won !!! \n\t !!! Thank you for playing !!!')
                     exit()

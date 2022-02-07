@@ -2,12 +2,13 @@ import copy
 from random import sample
 
 class Game():
-    def __init__(self,game_type):
+    def __init__(self,game_type=0):
         
         self.Board_size = Game.Collect_size()
         self.Grid = [[0]*self.Board_size for _ in range(self.Board_size)]
         self.Random_add()
-        # self.Grid = [[0,7,0,0],[4,0,4,2],[4,4,0,2],[8,8,4,4]]
+        # self.Grid = [[2,7,1,9],[4,0,5,0],[1,4,3,2],[2,1,7,8]]
+        self.Function_map = {1:Game.Merge_left_matrix,2:Game.Merge_right_matrix,3:Game.Merge_up_matrix,4:Game.Merge_down_matrix}
         self.Provide_options()
     
     @staticmethod
@@ -47,6 +48,7 @@ class Game():
    
     def Provide_options(self,with_random_add =True):
         if with_random_add:self.Random_add()
+        self.Verdict()
         Game.Display_board(self.Grid)
         option = Game.Collect_move()
         self.Make_move(option)
@@ -54,16 +56,7 @@ class Game():
     def Make_move(self,option):
         
         self.New_Grid = copy.deepcopy(self.Grid)
-        
-        Function_map = {1:Game.Merge_left_matrix,2:Game.Merge_right_matrix,3:Game.Merge_up_matrix,4:Game.Merge_down_matrix}
-        self.New_Grid = Function_map[option](self.New_Grid)
-        
-        # self.New_Grid = Game.Merge_down_matrix(self.New_Grid)
-        
-        # Game.Display_board(self.Grid)
-        # print('-'*20)
-        # Game.Display_board(self.New_Grid)
-        # print(self.New_Grid==self.Grid)
+        self.New_Grid = self.Function_map[option](self.New_Grid)
         
         if self.New_Grid==self.Grid:
             print('\tINVALID MOVE ! - Since it causes no changes in the grid \n \tProvide with new option')
@@ -71,9 +64,43 @@ class Game():
             self.Provide_options(False)
         else:
             self.Grid = copy.deepcopy(self.New_Grid)
+            
             self.Provide_options()
             # Game.Display_board(self.Grid)
-            
+    
+    def Verdict(self):
+        print('checking for verdict1')
+        self.Has_won()
+        print('checking for verdict2')
+        is_empty = False
+        for r in range(self.Board_size):
+            for c in range(self.Board_size):
+                if self.Grid[r][c] == 0:
+                    is_empty = True
+        print('checking for verdict3',is_empty) 
+        if not is_empty:
+            print('checking for lost')
+            self.Has_lost()
+
+        
+    def Has_lost(self):
+        test_grid = copy.deepcopy(self.Grid)
+        if self.Function_map[1](test_grid)==test_grid:
+            if self.Function_map[2](test_grid)==test_grid:
+                if self.Function_map[3](test_grid)==test_grid:
+                    if self.Function_map[4](test_grid)==test_grid:
+                        Game.Display_board(self.Grid)
+                        print('\t !!! You Lost !!! \n\t !!! Thank you for playing !!!')
+                        exit()
+    
+    def Has_won(self):
+        for r in range(self.Board_size):
+            for c in range(self.Board_size):
+                if self.Grid[r][c] == 2048:
+                    Game.Display_board(self.Grid)
+                    print('\t !!! Hurray You Won !!! \n\t !!! Thank you for playing !!!')
+                    exit()
+        
     @staticmethod
     def Merge_left_matrix(grid):
         for row in grid:
@@ -142,21 +169,7 @@ class Game():
         
         
 if __name__ == '__main__':
-    game = Game(0)
-    
-    # print([[1,2,3],[1,4,5]]==[[1,2,3],[1,4,5]])
-    # Grid = [[0,7,0,0],[4,0,4,2],[4,4,0,2],[8,8,4,4]]
-    # print([item for row in Grid for item in row])
-    # flat_grid = [item for row in Grid for item in row]
-    # zero_indexes = [i for i,v in enumerate(flat_grid) if v==0]
-    # print(zero_indexes)
-    # print(sample(zero_indexes,1))
-    # b = list()
-    # for a in zip(*Grid):
-    #     b.append(list(a))
-    # b = [list(reversed(l)) for l in b]
-    # for c in b:
-    #     print(c)
+    game = Game()
     
 
     

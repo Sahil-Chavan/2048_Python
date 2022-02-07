@@ -14,7 +14,6 @@
   
   ## Requirements :
     - Python 3
-    - Brain (Just Joking ;-) )
     
    ## Instructions to play :
    
